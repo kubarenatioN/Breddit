@@ -1,11 +1,12 @@
 'use client';
 
+import { POSTS_LIMIT } from '@/lib/config';
 import { ExtendedPost } from '@/types/db';
 import { useIntersection } from '@mantine/hooks';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
-import { FC, useRef } from 'react';
+import { FC, useEffect, useRef } from 'react';
 import Post from './Post';
 
 interface PostFeedProps {
@@ -31,7 +32,7 @@ const PostFeed: FC<PostFeedProps> = ({
       ['infinite-query'],
       async ({ pageParam = 1 }) => {
         const query =
-          `/api/posts?limit=${10}&page=${pageParam}` +
+          `/api/posts?limit=${POSTS_LIMIT}&page=${pageParam}` +
           (Boolean(subredditName)
             ? `&subredditName=${subredditName}`
             : '');
@@ -50,6 +51,12 @@ const PostFeed: FC<PostFeedProps> = ({
         },
       }
     );
+
+  useEffect(() => {
+    if (entry?.isIntersecting) {
+      fetchNextPage();
+    }
+  }, [entry, fetchNextPage]);
 
   const posts =
     data?.pages.flatMap((page) => page) ?? initialPosts;
@@ -81,6 +88,8 @@ const PostFeed: FC<PostFeedProps> = ({
                 commentAmount={post.comments.length}
                 post={post}
                 subredditName={post.subreddit.name}
+                currentVote={currentVote}
+                votesAmt={votesCount}
               ></Post>
             </li>
           );
@@ -92,6 +101,8 @@ const PostFeed: FC<PostFeedProps> = ({
               commentAmount={post.comments.length}
               post={post}
               subredditName={post.subreddit.name}
+              currentVote={currentVote}
+              votesAmt={votesCount}
             ></Post>
           </li>
         );

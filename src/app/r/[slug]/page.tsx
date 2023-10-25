@@ -1,6 +1,7 @@
 import MiniCreatePost from '@/components/MiniCreatePost';
 import PostFeed from '@/components/PostFeed';
 import { getAuthSession } from '@/lib/auth';
+import { POSTS_LIMIT } from '@/lib/config';
 import { db } from '@/lib/db';
 import { notFound } from 'next/navigation';
 
@@ -27,9 +28,12 @@ const page = async ({ params }: PageProps) => {
           comments: true,
           subreddit: true,
         },
+        take: POSTS_LIMIT,
+        orderBy: {
+          createdAt: 'desc',
+        },
       },
     },
-    take: 2,
   });
 
   if (!subreddit) {
