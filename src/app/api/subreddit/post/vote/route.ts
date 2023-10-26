@@ -47,8 +47,6 @@ export async function PATCH(req: Request) {
     }
 
     if (existingVote) {
-      console.log(voteType);
-
       if (existingVote.type === voteType) {
         // delete vote
         await db.vote.delete({
