@@ -1,8 +1,9 @@
+import { getAuthSession } from '@/lib/auth';
 import Link from 'next/link';
 import { Icons } from './Icons';
-import { buttonVariants } from './ui/Button';
-import { getAuthSession } from '@/lib/auth';
+import SearchBar from './SearchBar';
 import UserProfileArea from './UserProfileArea';
+import { buttonVariants } from './ui/Button';
 
 export const Navbar = async () => {
   const session = await getAuthSession();
@@ -18,6 +19,7 @@ export const Navbar = async () => {
         </Link>
 
         {/* search bar */}
+        <SearchBar />
 
         {session?.user ? (
           <UserProfileArea

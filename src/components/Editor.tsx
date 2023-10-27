@@ -164,7 +164,6 @@ const Editor: FC<EditorProps> = ({ subredditId }) => {
         '/api/subreddit/post/create',
         payload
       );
-      console.log('DATA:', data);
 
       return data;
     },

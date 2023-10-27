@@ -32,7 +32,6 @@ export async function POST(req: Request) {
         }
       );
     }
-    console.log('create');
 
     await db.post.create({
       data: {
