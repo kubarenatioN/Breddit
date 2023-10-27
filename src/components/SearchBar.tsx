@@ -44,7 +44,6 @@ const SearchBar: FC<SearchBarProps> = ({}) => {
     data: queryRes,
     refetch,
     isFetched,
-    isFetching,
   } = useQuery({
     queryFn: async () => {
       if (!search) {
